@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "robot"
+version = "0.1.0"
+description = "Simple program that build targets (files, commands, etc) in topoligical order."
+authors = ["Stephan Sæbø <kongpottifar@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+toposort = "^1.10"
+requests = "^2.31.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pyright]
+include=["robot"]
+executionEnviroments = [
+{root="tests", extraPaths=["robot"]}
+]
