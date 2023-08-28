@@ -5,12 +5,12 @@ from os import path
 
 
 class generated_file:
-    def __init__(self, file_name: str, cmd: str, dependencies: list[str]) -> None:
-        self.dependencies: list[str] = dependencies
+    def __init__(self, file_name: str, cmd: str, dependencies: list[str]|None = None) -> None:
+        self.dependencies: list[str] = [] if dependencies is None else dependencies
         self.file_name: str = file_name
         self.cmd: list[str] = shlex.split(cmd) 
 
-    def run(self) -> bool:
+   def run(self) -> bool:
         process = subprocess.run(self.cmd, capture_output=True)
         if process.returncode != 0:
             raise BuildError(

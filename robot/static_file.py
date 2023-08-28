@@ -4,6 +4,7 @@ from errors import BuildError
 class static_file:
     def __init__(self, file_name: str) -> None:
         self.file_name = file_name
+        self.dependencies: list[str] = []
 
     def run(self):
         if not path.isfile(self.file_name):

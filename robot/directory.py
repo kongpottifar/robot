@@ -10,7 +10,7 @@ class directory:
         makedirs(self.directory_name)
         return True
 
-    def needs_buld(self) -> bool:
+    def needs_build(self) -> bool:
         if not path.isdir(self.directory_name):
             return True
         return False

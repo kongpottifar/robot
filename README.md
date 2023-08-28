@@ -23,10 +23,10 @@ from command import command
 
 robot = Robot()
 
-robot.add(static_file(file_name = "a_file.txt"))
-robot.add(web_file(file_name="a_dowloaded_file.txt", url = "some_url"), dependencies=[])
-robot.add(command(
-                    cmd_name="concatenate_files",
+robot.add_target("a_file.txt", static_file(file_name = "a_file.txt"))
+robot.add_target("a_downloaded_file.txt", web_file(file_name="a_downloaded_file.txt", url = "some_url"), dependencies=[])
+robot.add_target("cat_files", command(
+                    cmd_name="cat_files",
                     cmd="cat a_file.txt a_dowloaded_file.txt"),
                     dependencies=["a_file.txt","a_downloaded_file.text"])
 
@@ -35,7 +35,7 @@ robot.build()
 
 ## Extending
 
-The robot can take any instance of  a class that implements:
+The robot can take any instance of a class that implements:
 
 ```python
 

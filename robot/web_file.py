@@ -5,7 +5,7 @@ from os import path
 
 class web_file:
     def __init__(self, file_name: str, url: str, dependencies: list[str]|None = None) -> None:
-        self.dependencies = dependencies
+        self.dependencies: list[str] = [] if dependencies is None else dependencies
         self.file_name = file_name
         self.url = url
 
