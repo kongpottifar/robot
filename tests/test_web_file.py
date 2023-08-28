@@ -31,5 +31,3 @@ def test_web_file_error():
         if path.isfile(test_file):
             remove(test_file)
     
-
-
