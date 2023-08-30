@@ -1,10 +1,9 @@
-from posixpath import isfile
 from robot import Robot
-from directory import directory
-from static_file import static_file
-from web_file import web_file
-from generated_file import generated_file
-from command import command
+from robot import directory
+from robot import static_file
+from robot import web_file
+from robot import generated_file
+from robot import command
 from os import path, remove, mkdir, rmdir
 
 
@@ -27,14 +26,14 @@ def test_full_build():
         remove(gf)
 
     robot = Robot()
-    robot.add_target(sf, static_file(sf))
-    robot.add_target(td, directory(td))
-    robot.add_target(wf, web_file(file_name = wf,
+    robot.add_target(static_file(sf))
+    robot.add_target(directory(td))
+    robot.add_target(web_file(file_name = wf,
                               url = test_url,
                               dependencies = [td]))
-    robot.add_target(gf, generated_file(file_name=gf,
+    robot.add_target(generated_file(file_name=gf,
                                     cmd = f"touch {gf}"))
-    robot.add_target("cat_all", command(
+    robot.add_target(command(
         cmd_name = "cat_all",
         cmd = f"cat {sf} {wf} {gf}",
         dependencies=[sf, wf, gf]))

@@ -1,4 +1,4 @@
-from web_file import web_file
+from robot import web_file
 from pytest import raises
 from os import path, remove
 from requests.exceptions import HTTPError

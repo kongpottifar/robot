@@ -1,7 +1,7 @@
-from generated_file import generated_file
+from robot import generated_file
 from pytest import raises
 from os import path, remove
-from errors import BuildError
+from robot import BuildError
 
 
 def test_generate_file():

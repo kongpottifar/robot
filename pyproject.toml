@@ -1,9 +1,13 @@
 [tool.poetry]
 name = "robot"
-version = "0.1.0"
+version = "0.1.1"
 description = "Simple program that build targets (files, commands, etc) in topoligical order."
 authors = ["Stephan Sæbø <kongpottifar@gmail.com>"]
 readme = "README.md"
+packages = [
+  { include = "robot"}
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -22,3 +26,4 @@ include=["robot"]
 executionEnviroments = [
 {root="tests", extraPaths=["robot"]}
 ]
+

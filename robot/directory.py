@@ -3,6 +3,7 @@ from os import makedirs, path
 
 class directory:
     def __init__(self, directory_name: str, dependencies: list[str]|None = None) -> None:
+        self.target_name: str = directory_name
         self.directory_name: str = directory_name
         self.dependencies: list[str] = [] if dependencies is None else dependencies 
 

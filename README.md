@@ -16,16 +16,13 @@ downloading files or running commands.
 ## Usage
 
 ```python
-from robot import Robot
-from static_file import static_file
-from web_file import web_file
-from command import command
+from robot import Robot, static_file, web_file, command
 
 robot = Robot()
 
-robot.add_target("a_file.txt", static_file(file_name = "a_file.txt"))
-robot.add_target("a_downloaded_file.txt", web_file(file_name="a_downloaded_file.txt", url = "some_url"), dependencies=[])
-robot.add_target("cat_files", command(
+robot.add_target(static_file(file_name = "a_file.txt"))
+robot.add_target(web_file(file_name="a_downloaded_file.txt", url = "some_url"), dependencies=[])
+robot.add_target(command(
                     cmd_name="cat_files",
                     cmd="cat a_file.txt a_dowloaded_file.txt"),
                     dependencies=["a_file.txt","a_downloaded_file.text"])
@@ -40,6 +37,7 @@ The robot can take any instance of a class that implements:
 ```python
 
 class my_target:
+    target_name: str
     dependencies: list[str]
 
     def run(self) -> bool:

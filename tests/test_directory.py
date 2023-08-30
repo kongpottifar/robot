@@ -1,4 +1,4 @@
-from directory import directory
+from robot import directory
 from os import path, mkdir, rmdir
 from pytest import raises
 

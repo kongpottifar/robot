@@ -1,11 +1,12 @@
 from pytest import raises
-from errors import BuildError
+from robot import BuildError
 from robot import Robot
 from toposort import CircularDependencyError
 
 
 class mock_target:
-    def __init__(self, dependencies: list[str], ok: bool = True):
+    def __init__(self, name: str, dependencies: list[str], ok: bool = True):
+        self.target_name: str = name 
         self.dependencies = dependencies
         self.ok = ok
 
@@ -20,44 +21,44 @@ class mock_target:
 
 
 def test_robot_add():
-    A = mock_target(dependencies=[])
-    B = mock_target(dependencies=["A"])
-    C = mock_target(dependencies=["A", "B"])
+    A = mock_target("A", dependencies=[])
+    B = mock_target("B", dependencies=["A"])
+    C = mock_target("C", dependencies=["A", "B"])
 
     robot = Robot()
-    robot.add_target("A", A)
-    robot.add_target("B", B)
-    robot.add_target("C", C)
+    robot.add_target(A)
+    robot.add_target(B)
+    robot.add_target(C)
 
     with raises(ValueError):
-        robot.add_target("C", C)
+        robot.add_target(C)
 
 
 def test_dependency_check():
-    A = mock_target(dependencies=[])
-    B = mock_target(dependencies=["A"])
-    C = mock_target(dependencies=["A", "B", "D"])
+    A = mock_target("A", dependencies=[])
+    B = mock_target("B", dependencies=["A"])
+    C = mock_target("C", dependencies=["A", "B", "D"])
 
     robot = Robot()
-    robot.add_target("A", A)
-    robot.add_target("B", B)
-    robot.add_target("C", C)
+    robot.add_target(A)
+    robot.add_target(B)
+    robot.add_target(C)
 
     with raises(ValueError):
         robot.check_dependencies()
 
 
 def test_toposort():
-    A = mock_target(dependencies=[])
-    B = mock_target(dependencies=["A"])
-    C = mock_target(dependencies=["A", "B"])
-    D = mock_target(dependencies=["B", "C"])
+    A = mock_target("A", dependencies=[])
+    B = mock_target("B", dependencies=["A"])
+    C = mock_target("C", dependencies=["A", "B"])
+    D = mock_target("D", dependencies=["B", "C"])
 
     robot = Robot()
-    robot.add_target("A", A)
-    robot.add_target("B", B)
-    robot.add_target("C", C)
-    robot.add_target("D", D)
+    robot.add_target(A)
+    robot.add_target(B)
+    robot.add_target(C)
+    robot.add_target(D)
 
     target_list = robot.sort_targets()
     assert target_list[0] == "A"
@@ -67,47 +68,47 @@ def test_toposort():
 
 
 def test_toposort_error():
-    A = mock_target(dependencies=["D"])
-    B = mock_target(dependencies=["A"])
-    C = mock_target(dependencies=["A", "B"])
-    D = mock_target(dependencies=["B", "C"])
+    A = mock_target("A", dependencies=["D"])
+    B = mock_target("B", dependencies=["A"])
+    C = mock_target("C", dependencies=["A", "B"])
+    D = mock_target("D", dependencies=["B", "C"])
 
     robot = Robot()
-    robot.add_target("A", A)
-    robot.add_target("B", B)
-    robot.add_target("C", C)
-    robot.add_target("D", D)
+    robot.add_target(A)
+    robot.add_target(B)
+    robot.add_target(C)
+    robot.add_target(D)
 
     with raises(CircularDependencyError):
         robot.sort_targets()
     
 
 def test_build():
-    A = mock_target(dependencies=[])
-    B = mock_target(dependencies=["A"])
-    C = mock_target(dependencies=["A", "B"])
-    D = mock_target(dependencies=["B", "C"])
+    A = mock_target("A", dependencies=[])
+    B = mock_target("B", dependencies=["A"])
+    C = mock_target("C", dependencies=["A", "B"])
+    D = mock_target("D", dependencies=["B", "C"])
 
     robot = Robot()
-    robot.add_target("A", A)
-    robot.add_target("B", B)
-    robot.add_target("C", C)
-    robot.add_target("D", D)
+    robot.add_target(A)
+    robot.add_target(B)
+    robot.add_target(C)
+    robot.add_target(D)
 
     robot.build()
 
 
 def test_build_error():
-    A = mock_target(dependencies=[])
-    B = mock_target(dependencies=["A"], ok=False)
-    C = mock_target(dependencies=["A", "B"])
-    D = mock_target(dependencies=["B", "C"])
+    A = mock_target("A", dependencies=[])
+    B = mock_target("B", dependencies=["A"], ok=False)
+    C = mock_target("C", dependencies=["A", "B"])
+    D = mock_target("D", dependencies=["B", "C"])
 
     robot = Robot()
-    robot.add_target("A", A)
-    robot.add_target("B", B)
-    robot.add_target("C", C)
-    robot.add_target("D", D)
+    robot.add_target(A)
+    robot.add_target(B)
+    robot.add_target(C)
+    robot.add_target(D)
     
     with raises(BuildError):
         robot.build()

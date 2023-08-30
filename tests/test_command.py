@@ -1,6 +1,6 @@
-from command import command
+from robot import command
 from pytest import raises
-from errors import BuildError
+from robot import BuildError
 
 
 def test_command():

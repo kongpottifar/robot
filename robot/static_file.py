@@ -1,8 +1,9 @@
 from os import path
-from errors import BuildError
+from robot.errors import BuildError
 
 class static_file:
     def __init__(self, file_name: str) -> None:
+        self.target_name: str = file_name
         self.file_name = file_name
         self.dependencies: list[str] = []
 

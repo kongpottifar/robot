@@ -3,6 +3,7 @@ from toposort import toposort_flatten
 
 
 class Target(Protocol):
+    target_name: str
     dependencies: list[str]
     
     def run(self) -> bool:
@@ -17,10 +18,10 @@ class Robot:
         self.targets: dict[str, Target] = dict()
         self.check_tree = False
 
-    def add_target(self, target_name: str, target: Target) -> None:
-        if target_name in self.targets:
-            raise ValueError(f"Can not add target. Target {target_name} is already exists")
-        self.targets[target_name] = target
+    def add_target(self, target: Target) -> None:
+        if target.target_name in self.targets:
+            raise ValueError(f"Can not add target. Target {target.target_name} already exists")
+        self.targets[target.target_name] = target
         
     def check_dependencies(self) -> None:
         for target in self.targets.values():

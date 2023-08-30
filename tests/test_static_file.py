@@ -1,7 +1,6 @@
-from static_file import static_file
+from robot import static_file, BuildError
 from pytest import raises
 from os import path, remove
-from tests.test_robot import BuildError
 
 
 def test_static_file():

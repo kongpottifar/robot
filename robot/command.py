@@ -1,9 +1,10 @@
 import shlex
 import subprocess
-from errors import BuildError
+from robot.errors import BuildError
 
 class command:
     def __init__(self, cmd_name: str, cmd: str, dependencies: list[str], run_when: str = "always") -> None:
+        self.target_name: str = cmd_name
         self.dependencies = dependencies
         self.cmd: list[str] = shlex.split(cmd)
         self.cmd_name: str = cmd_name
